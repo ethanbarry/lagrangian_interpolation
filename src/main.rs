@@ -16,9 +16,23 @@ fn main() {
 ///
 /// ## Example
 ///
+/// Interpolate y-value at x = 1.0.
+///
 /// ```rust
-/// todo!()
+/// let table = Table::new();
+/// table.add_pt(Point(0.0, 0.0));
+/// table.add_pt(Point(0.134, 0.118));
+/// table.add_pt(Point(1.32, 0.97));
+/// table.add_pt(Point(1.55, 1.036));
+///
+/// let res = lagrangian_interpolation(table, 1.0);
 /// ```
+///
+/// ## Panics
+///
+/// If a value in the table does not exist or cannot
+/// be read, the `.unwrap()` in the second loop below
+/// will panic.
 fn lagrangian_interpolation(table: Table, xval: f64) -> f64 {
     let n = table.len();
     let mut sum = 0.0;
@@ -31,8 +45,8 @@ fn lagrangian_interpolation(table: Table, xval: f64) -> f64 {
             // Iterator grabs all but i.
             for j in (0..n)
                 .enumerate()
-                .filter_map(|(pos, e)| (pos != i).then(|| e))
-                .into_iter()
+                .filter(|&(pos, _)| (pos != i))
+                .map(|(_, e)| e)
             {
                 let x_j = table.pt_at(j).unwrap().0;
                 product *= (xval - x_j) / (x_i - x_j);
@@ -47,6 +61,7 @@ fn lagrangian_interpolation(table: Table, xval: f64) -> f64 {
     sum
 }
 
+/// Just a Vec<Point> in a handy wrapper.
 struct Table {
     table: Vec<Point>,
 }
@@ -56,14 +71,17 @@ impl Table {
         Self { table: vec![] }
     }
 
+    /// Retrieve the length of the table.
     fn len(&self) -> usize {
         self.table.len()
     }
 
+    /// Add a point.
     fn add_pt(&mut self, point: Point) {
         self.table.push(point);
     }
 
+    /// Retrieve the ith point from the table.
     fn pt_at(&self, index: usize) -> Option<&Point> {
         self.table.get(index)
     }
