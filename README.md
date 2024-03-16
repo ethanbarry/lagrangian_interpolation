@@ -6,15 +6,21 @@ be best to modify this source to suit a larger program, and drop it in as a rout
 
 ## Usage
 
-Just do
+Do
 ```shell
-cargo run
+cargo run > output.dat
 ```
-to run the program, and 
+to run the program, load the points to a file, and 
 ```shell
 cargo test
 ```
 to run the test(s)! Easy!
+
+To plot the data with `gnuplot`, do the following:
+```shell
+gnuplot lagrangian_interp.plt > plot.png
+```
+to store the output in a .png file. If you want another format, read gnuplot's docs! They're pretty detailed.
 
 ## Credit
 
