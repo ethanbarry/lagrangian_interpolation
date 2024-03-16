@@ -1,13 +1,17 @@
 fn main() {
     let mut table = Table::new();
     table.add_pt(Point(0.0, 0.0));
-    table.add_pt(Point(30.0, 0.5));
-    table.add_pt(Point(60.0, 0.86603));
-    table.add_pt(Point(90.0, 1.0));
+    table.add_pt(Point(0.5235987, 0.5)); // pi/6 radians, 30 degrees.
+    table.add_pt(Point(1.0471975, 0.86603)); // pi/3 radians, 60 degrees.
+    table.add_pt(Point(1.5707963, 1.0)); // pi/2 radians, 90 degrees.
 
-    let res = lagrangian_interpolation(table, 51.0);
+    // Increment the xval we use every time around, and print points to terminal.
+    for iteration in 1..1000 {
+        let xval = 0.5236_f64 + 0.01 * iteration as f64;
+        let res = lagrangian_interpolation(&table, xval);
 
-    println!("\nHmmm... sin(51°) interpolates to {} using Lagrangian Interpolation on four values.\nThe real answer is 0.77714596...", res);
+        println!("{:.7}\t{:.7}", xval, res);
+    }
 }
 
 /// This funtion interpolates a function's value by interpolating
@@ -33,7 +37,7 @@ fn main() {
 /// If a value in the table does not exist or cannot
 /// be read, the `.unwrap()` in the second loop below
 /// will panic.
-fn lagrangian_interpolation(table: Table, xval: f64) -> f64 {
+fn lagrangian_interpolation(table: &Table, xval: f64) -> f64 {
     let n = table.len();
     let mut sum = 0.0;
 
