@@ -14,7 +14,7 @@ fn main() {
     }
 }
 
-/// This funtion interpolates a function's value by interpolating
+/// This funtion interpolates a function's value
 /// when passed a table of precomputed points and the x-value at
 /// which to evaluate it.
 ///
