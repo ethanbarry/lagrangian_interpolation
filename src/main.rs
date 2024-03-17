@@ -119,7 +119,7 @@ mod tests {
         table.add_pt(Point(60.0, 0.86603));
         table.add_pt(Point(90.0, 1.0));
 
-        let res = lagrangian_interpolation(table, 51.0);
+        let res = lagrangian_interpolation(&table, 51.0);
         assert!((res - 0.776).abs() <= 1e-3)
     }
 }
