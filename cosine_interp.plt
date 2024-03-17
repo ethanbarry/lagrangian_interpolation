@@ -2,7 +2,6 @@ set terminal pngcairo size 1280,960
 set yrange [-1:1]
 set xrange [0:5]
 
-x1 = sin(0)
 x1 = 0
 y1 = sin(x1)
 x2 = 2
