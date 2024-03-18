@@ -1,17 +1,40 @@
+use plotly::common::Mode;
+use plotly::{Plot, Scatter};
+
 fn main() {
     let mut table = Table::new();
     table.add_pt(Point(0.0, 0.0));
-    table.add_pt(Point(0.5235987, 0.5)); // pi/6 radians, 30 degrees.
-    table.add_pt(Point(1.0471975, 0.86603)); // pi/3 radians, 60 degrees.
-    table.add_pt(Point(1.5707963, 1.0)); // pi/2 radians, 90 degrees.
+    table.add_pt(Point(0.523598775598, 0.5)); // pi/6
+    table.add_pt(Point(0.785398163397, 0.707106781186)); // pi/4
+    table.add_pt(Point(1.047197551196, 0.866025403784)); // pi/3
+    table.add_pt(Point(1.570796326794, 1.0)); // pi/2
+    table.add_pt(Point(2.094395102393, 0.866025403784)); // 2pi/3
+    table.add_pt(Point(2.356194490192, 0.707106781186)); // 3pi/4
+    table.add_pt(Point(2.617993877991, 0.5));
+    table.add_pt(Point(3.141592653589, 0.0));
+    table.add_pt(Point(3.141592653589 * 2.0, 0.0));
+
+    let mut interp_x: Vec<f64> = vec![];
+    let mut interp_y: Vec<f64> = vec![];
 
     // Increment the xval we use every time around, and print points to terminal.
-    for iteration in 1..1000 {
-        let xval = 0.5236_f64 + 0.01 * iteration as f64;
+    let mut iteration = 0;
+    loop {
+        let xval = 0.0 + 0.01 * iteration as f64;
+        if xval > 3.141592653589 * 2.0 {
+            break;
+        }
         let res = lagrangian_interpolation(&table, xval);
 
-        println!("{:.7}\t{:.7}", xval, res);
+        interp_x.push(xval);
+        interp_y.push(res);
+        iteration += 1;
     }
+
+    let trace = Scatter::new(interp_x, interp_y).mode(Mode::Markers);
+    let mut plot = Plot::new();
+    plot.add_trace(trace);
+    plot.show();
 }
 
 /// This funtion interpolates a function's value
