@@ -6,6 +6,8 @@ be best to modify this source to suit a larger program, and drop it in as a rout
 
 ## Usage
 
+### With `gnuplot`
+
 Do
 ```shell
 cargo run > output.dat
@@ -21,6 +23,19 @@ To plot the data with `gnuplot`, do the following:
 gnuplot lagrangian_interp.plt > plot.png
 ```
 to store the output in a .png file. If you want another format, read gnuplot's docs! They're pretty detailed.
+
+### With `plotly`
+
+First, checkout the branch "plotly" like so:
+```shell
+git switch plotly
+```
+and then do
+```shell
+cargo run
+```
+and it will open an interactive graph in your default browser/webview. This makes use of the [plotly](https://docs.rs/plotly) crate,
+which interfaces with the `plotly.js` library, and gives Rust Jupyter-Notebook-level data visualization capabilities. Check it out!
 
 ## Credit
 
